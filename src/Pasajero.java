@@ -15,10 +15,14 @@ public class Pasajero extends Thread {
     @Override
     public void run() {
         try {
-            
-
-
-
+            aeropuerto.ingresarAeropuerto(Thread.currentThread().getName());
+            puestoInformes.ingresarPuestoInformes();
+            puestoAtencion.realizarCheckIn();
+            tren.subirAlTren();
+            // If randomboolean para ver si quiere entrar AND tienetiempo
+            // freeShop.ingresarFreeShop();
+            // Existe posibilidad de que pierda el vuelo o muy falopa¿?
+            vuelo.abordarAvion();
 
 
             

@@ -1,4 +1,4 @@
-public class PuestoInforme {
+public class PuestoInformes {
     
 
 

@@ -11,6 +11,10 @@ public class Main {
 
     
     public static void main(String[] args) {
+
+
+
+
         
         crearTerminales();  
         crearAerolineas();
@@ -20,6 +24,12 @@ public class Main {
 
 
         //Aeropuerto aeropuerto = new Aeropuerto(terminales, aerolineas, tren);
+
+
+        Tiempo tiempo = new Tiempo();
+        Reloj reloj = new Reloj(tiempo);
+        reloj.start();
+
     }
 
     public static void crearTerminales() {
