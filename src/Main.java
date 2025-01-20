@@ -5,21 +5,21 @@ public class Main {
     private static final int cantPuestosEmbarque = 6;   // Cantidad por terminal
 
     private static final Terminal[] terminales = new Terminal[cantTerminales];
-    private static final Aerolinea[] aerolineas = new Aerolinea[cantAerolineas];
+    private static final String[] aerolineas = new String[]{"Emirates", "Air France", "Qatar Airways", "American Airlines"};
 
 
 
     
     public static void main(String[] args) {
         
-        crearTerminales();
+        crearTerminales();  
         crearAerolineas();
 
         ControlTren chofer = new ControlTren();
         //Tren tren = new Tren(chofer);
 
 
-        Aeropuerto aeropuerto = new Aeropuerto(terminales, aerolineas, tren);
+        //Aeropuerto aeropuerto = new Aeropuerto(terminales, aerolineas, tren);
     }
 
     public static void crearTerminales() {
@@ -38,7 +38,7 @@ public class Main {
     }
 
     public static void crearAerolineas() {
-
+        
 
 
         
