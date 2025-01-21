@@ -1,13 +1,13 @@
 public class Aeropuerto {
 
-
+    private PuestoInformes puestoInformes;
     
     private boolean estaAbierto;
 
 
 
-    public Aeropuerto(Terminal[] terminales, Tren tren) {
-
+    public Aeropuerto(PuestoInformes puestoInformes) {
+        this.puestoInformes = puestoInformes;
         
         this.estaAbierto = true;
     }

@@ -27,7 +27,7 @@ public class Main {
 
 
         Tiempo tiempo = new Tiempo();
-        Reloj reloj = new Reloj(tiempo);
+        Reloj reloj = new Reloj(aeropuerto, tiempo);
         reloj.start();
 
     }
@@ -49,7 +49,8 @@ public class Main {
 
     public static void crearAerolineas() {
         
-
+        // aca creo el puesto de atencion de cada aerolinea
+        // uno x cada aerolinea
 
         
     }
