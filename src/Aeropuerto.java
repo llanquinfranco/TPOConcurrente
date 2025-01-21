@@ -11,7 +11,8 @@ public class Aeropuerto {
         
         this.estaAbierto = true;
     }
-
+    
+    // Metodo para Pasajero
     public synchronized void ingresarAeropuerto(String pasajero) {
         // Si el aeropuerto esta cerrado, el pasajero debe esperar a que abra
         try {
@@ -25,6 +26,7 @@ public class Aeropuerto {
         }
     }
 
+    // Metodo para Reloj
     public synchronized void abrirAeropuerto() {
         estaAbierto = true;
         System.out.println("El aeropuerto comenzo su horario de atencion.");
@@ -32,6 +34,7 @@ public class Aeropuerto {
         this.notifyAll();
     }
 
+    // Metodo para Reloj
     public synchronized void cerrarAeropuerto() {
         estaAbierto = false;
         System.out.println("El aeropuerto finalizo su horario de atencion.");

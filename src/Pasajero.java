@@ -16,8 +16,16 @@ public class Pasajero extends Thread {
     public void run() {
         try {
             aeropuerto.ingresarAeropuerto(Thread.currentThread().getName());
+
             puestoInformes.ingresarPuestoInformes();
-            puestoAtencion.realizarCheckIn();
+
+            //PuestoAtencion puestoAtencion = puestoInformes.getPuestoCheckIn(); ¿?
+
+            puestoAtencion.ingresarPuestoAtencion(nombre);
+            puestoAtencion.realizarCheckIn(nombre);
+            puestoAtencion.salirPuestoAtencion(nombre);
+
+
             tren.subirAlTren();
             // If randomboolean para ver si quiere entrar AND tienetiempo
             // freeShop.ingresarFreeShop();
