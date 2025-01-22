@@ -9,4 +9,12 @@ public class Terminal {
         this.puestos = puestos;
         this.freeShop = freeShop;
     }
+
+    public char getLetra() {
+        return letra;
+    }
+
+    public FreeShop getFreeShop() {
+        return freeShop;
+    }
 }

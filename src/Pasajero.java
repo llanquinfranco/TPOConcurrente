@@ -24,8 +24,18 @@ public class Pasajero extends Thread {
             puestoAtencion.realizarCheckIn(nombre);
             puestoAtencion.salirPuestoAtencion(nombre);
 
+            Terminal terminal = vuelo.getTerminal();
 
-            tren.subirAlTren();
+
+            Tren tren = aeropuerto.getTren();
+            tren.subirTren(terminal.getLetra());
+
+            tren.bajarTren();
+
+
+
+
+            
             // If randomboolean para ver si quiere entrar AND tienetiempo
             // freeShop.ingresarFreeShop();
             // Existe posibilidad de que pierda el vuelo o muy falopa¿?
