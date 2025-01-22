@@ -15,11 +15,10 @@ public class Pasajero extends Thread {
     @Override
     public void run() {
         try {
-            aeropuerto.ingresarAeropuerto(Thread.currentThread().getName());
+            aeropuerto.ingresarAeropuerto(nombre);
 
-            puestoInformes.ingresarPuestoInformes();
-
-            //PuestoAtencion puestoAtencion = puestoInformes.getPuestoCheckIn(); ¿?
+            String aerolinea = vuelo.getAerolinea();
+            PuestoAtencion puestoAtencion = aeropuerto.ingresarPuestoInformes(aerolinea);
 
             puestoAtencion.ingresarPuestoAtencion(nombre);
             puestoAtencion.realizarCheckIn(nombre);

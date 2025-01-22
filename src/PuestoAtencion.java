@@ -6,6 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class PuestoAtencion {
     
+    private String aerolinea;
     private int cantidadMaxima;
     private int cantidadFila;
     private int cantidadHall;
@@ -16,7 +17,8 @@ public class PuestoAtencion {
     private Condition esperaGuardia;
     
 
-    public PuestoAtencion(int cantidadMaxima) {
+    public PuestoAtencion(String aerolinea, int cantidadMaxima) {
+        this.aerolinea = aerolinea;
         this.cantidadMaxima = cantidadMaxima;
         this.cantidadFila = 0;
         this.cantidadHall = 0;
@@ -83,6 +85,10 @@ public class PuestoAtencion {
         } finally {
             accesoPuesto.unlock();
         }
+    }
+
+    public String getAerolinea() {
+        return aerolinea;
     }
 
 }

@@ -1,14 +1,14 @@
 public class Aeropuerto {
 
-    private PuestoInformes puestoInformes;
-    
+    private PuestoAtencion[] puestosAtencion;
+    private Tren tren;
     private boolean estaAbierto;
 
 
 
-    public Aeropuerto(PuestoInformes puestoInformes) {
-        this.puestoInformes = puestoInformes;
-        
+    public Aeropuerto(PuestoAtencion[] puestosAtencion, Tren tren) {
+        this.puestosAtencion = puestosAtencion;
+        this.tren = tren;
         this.estaAbierto = true;
     }
     
@@ -26,6 +26,17 @@ public class Aeropuerto {
         }
     }
 
+    // Metodo para Pasajero
+    public synchronized PuestoAtencion ingresarPuestoInformes(String nombre) {
+        int i = 0;
+        PuestoAtencion puesto = null;
+        while(!nombre.equals(puestosAtencion[i].getAerolinea())) {
+            i++;
+        }
+        puesto = puestosAtencion[i];
+        return puesto;
+    }
+
     // Metodo para Reloj
     public synchronized void abrirAeropuerto() {
         estaAbierto = true;
@@ -40,4 +51,7 @@ public class Aeropuerto {
         System.out.println("El aeropuerto finalizo su horario de atencion.");
     }
 
+    public Tren getTren() {
+        return tren;
+    }
 }
