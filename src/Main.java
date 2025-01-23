@@ -7,7 +7,7 @@ public class Main {
     private static final String[] aerolineas = new String[]{"Emirates", "Air France", "Qatar Airways", "American Airlines"};
     private static final PuestoAtencion[] puestosAtencion = new PuestoAtencion[aerolineas.length];
 
-
+    // Cantidad de pasajeros igual a mutliplo de capacidad tren para que no se bloqueen y fue
     
     public static void main(String[] args) {
         

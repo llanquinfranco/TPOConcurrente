@@ -1,15 +1,19 @@
+import java.util.Random;
+
 public class Pasajero extends Thread {
 
     private String nombre;
     private Aeropuerto aeropuerto;
     private Vuelo vuelo;
-    private Reloj reloj;
+    private Tiempo tiempo;
+    private Random randomQuiereEntrar;
 
-    public Pasajero(String nombre, Aeropuerto aeropuerto, Vuelo vuelo, Reloj reloj) {
+    public Pasajero(String nombre, Aeropuerto aeropuerto, Vuelo vuelo, Tiempo tiempo) {
         this.nombre = nombre;
         this.aeropuerto = aeropuerto;
         this.vuelo = vuelo;
-        this.reloj = reloj;
+        this.tiempo = tiempo;
+        this.randomQuiereEntrar = new Random();
     }
     
     @Override
@@ -25,21 +29,20 @@ public class Pasajero extends Thread {
             puestoAtencion.salirPuestoAtencion(nombre);
 
             Terminal terminal = vuelo.getTerminal();
-
-
             Tren tren = aeropuerto.getTren();
-            tren.subirTren(terminal.getLetra());
+            tren.subirTren(nombre);
+            tren.bajarTren(terminal.getLetra(), nombre);
 
-            tren.bajarTren();
+            int horaSalida = vuelo.getHoraSalida();
+            if (randomQuiereEntrar.nextBoolean() && tiempo.puedeEntrar(horaSalida)) {
 
-
-
+            }
 
             
             // If randomboolean para ver si quiere entrar AND tienetiempo
             // freeShop.ingresarFreeShop();
             // Existe posibilidad de que pierda el vuelo o muy falopa¿?
-            vuelo.abordarAvion();
+            // vuelo.abordarAvion();
 
 
             

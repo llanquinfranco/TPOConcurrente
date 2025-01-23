@@ -3,13 +3,13 @@ public class Vuelo {
     private String aerolinea;
     private Terminal terminal;
     private int puestoEmbarque;
-    private int hora;
+    private int horaSalida;
 
-    public Vuelo(String aerolinea, Terminal terminal, int puestoEmbarque, int hora) {
+    public Vuelo(String aerolinea, Terminal terminal, int puestoEmbarque, int horaSalida) {
         this.aerolinea = aerolinea;
         this.terminal = terminal;
         this.puestoEmbarque = puestoEmbarque;
-        this.hora = hora;
+        this.horaSalida = horaSalida;
     }
 
     public String getAerolinea() {
@@ -24,8 +24,8 @@ public class Vuelo {
         return puestoEmbarque;
     }
 
-    public int getHora() {
-        return hora;
+    public int getHoraSalida() {
+        return horaSalida;
     }
 
 }
