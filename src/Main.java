@@ -2,7 +2,8 @@ public class Main {
     
     private static final int cantTerminales = 4;
     private static final int cantPuestosEmbarque = 6;   // Cantidad por terminal
-
+    private static final int capacidadTren = 10;
+    private static final int capacidadFreeShop = 8;
     private static final Terminal[] terminales = new Terminal[cantTerminales];
     private static final String[] aerolineas = new String[]{"Emirates", "Air France", "Qatar Airways", "American Airlines"};
     private static final PuestoAtencion[] puestosAtencion = new PuestoAtencion[aerolineas.length];
@@ -14,7 +15,7 @@ public class Main {
         crearTerminales();  
         crearAerolineas();
 
-        Tren tren = new Tren();
+        Tren tren = new Tren(capacidadTren);
         ControlTren chofer = new ControlTren(tren, terminales);
         chofer.start();
 
@@ -37,7 +38,7 @@ public class Main {
                 puestosEmbarque[j] = numeroPuerta;
                 numeroPuerta++;
             }
-            FreeShop freeShop = new FreeShop();
+            FreeShop freeShop = new FreeShop(capacidadFreeShop);
             terminales[i] = new Terminal(letraTerminal, puestosEmbarque, freeShop);
             letraTerminal++;
         }

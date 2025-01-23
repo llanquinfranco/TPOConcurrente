@@ -49,6 +49,7 @@ public class Aeropuerto {
     public synchronized void cerrarAeropuerto() {
         estaAbierto = false;
         System.out.println("El aeropuerto finalizo su horario de atencion.");
+        // this.notifyAll();
     }
 
     public Tren getTren() {

@@ -6,14 +6,14 @@ public class Pasajero extends Thread {
     private Aeropuerto aeropuerto;
     private Vuelo vuelo;
     private Tiempo tiempo;
-    private Random randomQuiereEntrar;
+    private Random random;  // Para modelar la parte en la que quiere entrar o comprar algo
 
     public Pasajero(String nombre, Aeropuerto aeropuerto, Vuelo vuelo, Tiempo tiempo) {
         this.nombre = nombre;
         this.aeropuerto = aeropuerto;
         this.vuelo = vuelo;
         this.tiempo = tiempo;
-        this.randomQuiereEntrar = new Random();
+        this.random = new Random();
     }
     
     @Override
@@ -34,16 +34,17 @@ public class Pasajero extends Thread {
             tren.bajarTren(terminal.getLetra(), nombre);
 
             int horaSalida = vuelo.getHoraSalida();
-            if (randomQuiereEntrar.nextBoolean() && tiempo.puedeEntrar(horaSalida)) {
-
+            if (random.nextBoolean() && tiempo.tieneTiempo(horaSalida)) {
+                FreeShop freeShop = terminal.getFreeShop();
+                freeShop.ingresarFreeShop(nombre);
+                if(random.nextBoolean()) {
+                    freeShop.comprar(nombre);
+                }
+                freeShop.salirFreeShop(nombre);
             }
 
-            
-            // If randomboolean para ver si quiere entrar AND tienetiempo
-            // freeShop.ingresarFreeShop();
-            // Existe posibilidad de que pierda el vuelo o muy falopa¿?
-            // vuelo.abordarAvion();
-
+            // el vuelo espera a todos?
+            // o despego a la hora determinada nomas
 
             
         } catch (Exception e) {

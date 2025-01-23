@@ -15,7 +15,7 @@ public class Reloj extends Thread {
                 Thread.sleep(500); // 5s simulan 1h
                 System.out.println();
                 tiempo.avanzarHora();
-                System.out.println("Es la hora " + tiempo.getHora());
+                System.out.println("Es la hora " + tiempo.getHoraActual());
                 if (!tiempo.estaAbierto()) {
                     aeropuerto.cerrarAeropuerto();
                     Thread.sleep(1500);         // Simulo cierre de 22 a 6
