@@ -1,17 +1,21 @@
 public class Terminal {
     
     private char letra;
-    private int[] puestos;
+    private int[] puestosEmbarque;
     private FreeShop freeShop;
 
-    public Terminal(char letra, int[] puestos, FreeShop freeShop) {
+    public Terminal(char letra, int[] puestosEmbarque, FreeShop freeShop) {
         this.letra = letra;
-        this.puestos = puestos;
+        this.puestosEmbarque = puestosEmbarque;
         this.freeShop = freeShop;
     }
 
     public char getLetra() {
         return letra;
+    }
+
+    public int[] getPuestosEmbarque() {
+        return puestosEmbarque;
     }
 
     public FreeShop getFreeShop() {

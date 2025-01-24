@@ -7,6 +7,7 @@ public class Vuelo {
     private int puestoEmbarque;
     private int horaSalida;
     private int cantidadPasajeros;
+    private boolean yaDespego;
     private CountDownLatch latchEmbarque;
 
     public Vuelo(String aerolinea, Terminal terminal, int puestoEmbarque, int horaSalida) {
@@ -15,6 +16,7 @@ public class Vuelo {
         this.puestoEmbarque = puestoEmbarque;
         this.horaSalida = horaSalida;
         this.cantidadPasajeros = 0;
+        this.yaDespego = false;
     }
 
     // Metodo para Main
@@ -28,13 +30,20 @@ public class Vuelo {
     } 
 
     // Metodo para Pasajero
+    public synchronized void embarcar(String pasajero) {
+        System.out.println("El " + pasajero + " esta embarcando el vuelo de " + aerolinea);
+        latchEmbarque.countDown();
+    }
 
-
-
-
-
-
-
+    // Metodo para Pasajero
+    public synchronized void esperarDespegue(String pasajero) throws InterruptedException {
+        System.out.println("El " + pasajero + " embarco el vuelo de " + aerolinea + " esta esperando el despegue");
+        latchEmbarque.await();
+        if(!yaDespego) {
+            yaDespego = true;
+            System.out.println("El vuelo de " + aerolinea + " acaba de despegar");
+        }
+    }
 
     public String getAerolinea() {
         return aerolinea;

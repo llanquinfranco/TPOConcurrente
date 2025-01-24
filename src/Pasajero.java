@@ -43,8 +43,10 @@ public class Pasajero extends Thread {
                 freeShop.salirFreeShop(nombre);
             }
 
-            // el vuelo espera a todos?
-            // o despego a la hora determinada nomas
+            //vuelo.esperarLlamadoEmbarque(nombre);
+            vuelo.embarcar(nombre);
+            vuelo.esperarDespegue(nombre);
+
 
             
         } catch (Exception e) {

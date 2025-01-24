@@ -77,6 +77,16 @@ public class Main {
 
     public static void crearVuelos() {
 
+        for (int i = 0; i < aerolineas.length; i++) {
+            Terminal terminal = terminales[random.nextInt(terminales.length)];
+            int[] puestosEmbarque = terminal.getPuestosEmbarque();
+            int puestoEmbarque = puestosEmbarque[random.nextInt(puestosEmbarque.length)];
+            int horaSalida = random.nextInt(6, 23);
+            vuelos[i] = new Vuelo(aerolineas[i], terminal, puestoEmbarque, horaSalida);
+        }
+
+
+
     }
 
     public static void crearPasajeros(Aeropuerto aeropuerto, Tiempo tiempo) {

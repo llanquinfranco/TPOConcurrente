@@ -42,6 +42,7 @@ public class PuestoAtencion {
             filaCheckIn.add(pasajero);  // como hago para añadir el pasajero a la cola
             cantidadFila++;
             cantidadHall--;
+            esperaGuardia.signal();
         } finally {
             accesoPuesto.unlock();
         }
@@ -66,6 +67,7 @@ public class PuestoAtencion {
             accesoPuesto.lock();
             System.out.println("El " + pasajero + " ya realizo el check-in y salio del puesto de atencion");
             cantidadFila--;
+            filaCheckIn.poll();
             esperaFila.signal();
             esperaGuardia.signal();
         } finally {
