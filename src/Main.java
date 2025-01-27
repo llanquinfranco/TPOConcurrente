@@ -25,31 +25,13 @@ public class Main {
         ControlTren chofer = new ControlTren(tren, terminales);
         chofer.start();
 
-
         Aeropuerto aeropuerto = new Aeropuerto(puestosAtencion, tren);
         Tiempo tiempo = new Tiempo();
 
-        
         crearPasajeros(aeropuerto, tiempo);
-
-
-        
-
-
-
-
         
         Reloj reloj = new Reloj(aeropuerto, tiempo);
         reloj.start();
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -76,7 +58,6 @@ public class Main {
     }
 
     public static void crearVuelos() {
-
         for (int i = 0; i < aerolineas.length; i++) {
             Terminal terminal = terminales[random.nextInt(terminales.length)];
             int[] puestosEmbarque = terminal.getPuestosEmbarque();
@@ -84,9 +65,6 @@ public class Main {
             int horaSalida = random.nextInt(6, 23);
             vuelos[i] = new Vuelo(aerolineas[i], terminal, puestoEmbarque, horaSalida);
         }
-
-
-
     }
 
     public static void crearPasajeros(Aeropuerto aeropuerto, Tiempo tiempo) {

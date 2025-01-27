@@ -17,6 +17,17 @@ public class Tiempo {
         return puede;
     }
 
+    // Metodo para Pasajero
+    public synchronized void esperarLlamadoEmbarque(int horaSalida) {
+        try {
+            while(horaActual < horaSalida) {
+                this.wait();
+            }
+        } catch (Exception e) {
+            System.out.println("Error al subirse al esperar el llamado de embarque");
+        }
+    }
+
 
     // Metodo para Reloj
     public synchronized void avanzarHora() {
@@ -24,6 +35,7 @@ public class Tiempo {
         if (this.horaActual == 22) {
             this.abierto = false;
         }
+        this.notifyAll();
     }
 
     // Metodo para Reloj

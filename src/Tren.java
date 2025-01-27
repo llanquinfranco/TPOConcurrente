@@ -1,8 +1,7 @@
 import java.util.concurrent.CyclicBarrier;
 
 public class Tren {
-    
-    private int capacidad;
+
     private int debenBajar;
     private boolean estaLleno;
     private boolean estaEnRecorrido;
@@ -22,13 +21,15 @@ public class Tren {
     }
 
     // Metodo para Pasajero
-    public void subirTren(String pasajero) {   // synchronized o se bloquea?
+    public void subirTren(String pasajero) { // synchronized o se bloquea?
         try {
-            while (estaEnRecorrido) {
-                this.wait();
+            synchronized (this) {
+                while (estaEnRecorrido) {
+                    this.wait();
+                }
             }
             System.out.println("El " + pasajero + " entro al tren");
-            barrera.await();    // Espera a que el tren este lleno
+            barrera.await(); // Espera a que el tren este lleno
         } catch (Exception e) {
             System.out.println("Error en el " + pasajero + " al subirse al tren");
         }
@@ -43,10 +44,10 @@ public class Tren {
             debenBajar++;
             while (!haLlegadoATerminal) {
                 this.wait();
-            } 
+            }
             debenBajar--;
             System.out.println("El " + pasajero + " se bajo en la terminal " + terminal);
-            if(debenBajar == 0) {   // Baja y si es el ultimo que le avise al chofer
+            if (debenBajar == 0) { // Baja y si es el ultimo que le avise al chofer
                 this.notifyAll();
             }
         } catch (Exception e) {
@@ -79,7 +80,7 @@ public class Tren {
         if (debenBajar > 0) {
             haLlegadoATerminal = true;
             System.out.println("El tren se detuvo");
-            notifyAll();
+            this.notifyAll();
         }
     }
 
@@ -116,7 +117,5 @@ public class Tren {
         estaEnRecorrido = true;
         notifyAll();
     }
-
-
 
 }

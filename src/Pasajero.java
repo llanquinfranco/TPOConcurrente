@@ -43,7 +43,7 @@ public class Pasajero extends Thread {
                 freeShop.salirFreeShop(nombre);
             }
 
-            //vuelo.esperarLlamadoEmbarque(nombre);
+            tiempo.esperarLlamadoEmbarque(horaSalida);
             vuelo.embarcar(nombre);
             vuelo.esperarDespegue(nombre);
 
