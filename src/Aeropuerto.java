@@ -40,15 +40,18 @@ public class Aeropuerto {
     // Metodo para Reloj
     public synchronized void abrirAeropuerto() {
         estaAbierto = true;
-        System.out.println("El aeropuerto comenzo su horario de atencion.");
-        System.out.println("Son las 6");
+        System.out.println();
+        System.out.println("Son las 6:00. El aeropuerto comenzó su horario de atencion");
+        System.out.println();
         this.notifyAll();
     }
 
     // Metodo para Reloj
     public synchronized void cerrarAeropuerto() {
         estaAbierto = false;
-        System.out.println("El aeropuerto finalizo su horario de atencion.");
+        System.out.println();
+        System.out.println("Son las 22:00. El aeropuerto finalizó su horario de atencion");
+        System.out.println();
         // this.notifyAll();
     }
 

@@ -7,6 +7,7 @@ public class Vuelo {
     private int puestoEmbarque;
     private int horaSalida;
     private int cantidadPasajeros;
+    private boolean embarqueIniciado;
     private boolean yaDespego;
     private CountDownLatch latchEmbarque;
 
@@ -16,6 +17,7 @@ public class Vuelo {
         this.puestoEmbarque = puestoEmbarque;
         this.horaSalida = horaSalida;
         this.cantidadPasajeros = 0;
+        this.embarqueIniciado = false;
         this.yaDespego = false;
     }
 
@@ -30,22 +32,28 @@ public class Vuelo {
     }
 
     // Metodo para Pasajero
-    public void embarcar(String pasajero) {
-        System.out.println("El " + pasajero + " esta embarcando el vuelo de " + aerolinea);
-        latchEmbarque.countDown();
+    public void embarcarEsperarDespegue(String pasajero) {
+        try {
+            System.out.println("El " + pasajero + " esta embarcando el vuelo de " + aerolinea);
+            latchEmbarque.countDown();
+            latchEmbarque.await();
+            synchronized (this) {
+                if (!yaDespego) {
+                    yaDespego = true;
+                    System.out.println("El vuelo de " + aerolinea + " acaba de despegar");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error al embarcar y/o esperar el llamado de embarque");
+        }
     }
 
-    // Metodo para Pasajero
-    public void esperarDespegue(String pasajero) throws InterruptedException {
-        System.out.println("El " + pasajero + " embarco el vuelo de " + aerolinea + " esta esperando el despegue");
-        latchEmbarque.await();
-        synchronized (this) {
-            if (!yaDespego) {
-                yaDespego = true;
-                System.out.println("El vuelo de " + aerolinea + " acaba de despegar");
-            }
+    // Metodo para Tiempo
+    public synchronized void notificarComienzoEmbarque() {
+        if(!embarqueIniciado) {
+            embarqueIniciado = true;
+            System.out.println("El vuelo de " + aerolinea + " esta listo para comenzar a embarcar");
         }
-
     }
 
     public String getAerolinea() {

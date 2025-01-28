@@ -43,19 +43,13 @@ public class Pasajero extends Thread {
                 freeShop.salirFreeShop(nombre);
             }
 
-            tiempo.esperarLlamadoEmbarque(horaSalida);
-            vuelo.embarcar(nombre);
-            vuelo.esperarDespegue(nombre);
+            tiempo.esperarLlamadoEmbarque(horaSalida, vuelo);
+            vuelo.embarcarEsperarDespegue(nombre);
 
-
-            
         } catch (Exception e) {
             System.out.println("Error en el pasajero " + nombre);
         }
+
     }
-
-
-
-
 
 }

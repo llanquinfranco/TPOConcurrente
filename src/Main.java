@@ -6,15 +6,13 @@ public class Main {
     private static final int cantPuestosEmbarque = 6;   // Cantidad por terminal
     private static final int capacidadTren = 10;
     private static final int capacidadFreeShop = 8;
-    private static final int cantPasajeros = capacidadTren * 10;
+    private static final int cantPasajeros = capacidadTren * 10;    // Multiplo de capacidadTren para que no se bloqueen
     private static final Terminal[] terminales = new Terminal[cantTerminales];
     private static final String[] aerolineas = new String[]{"Emirates", "Air France", "Qatar Airways", "American Airlines"};
     private static final PuestoAtencion[] puestosAtencion = new PuestoAtencion[aerolineas.length];
     private static final Vuelo[] vuelos = new Vuelo[aerolineas.length];
     private static final Random random = new Random();
 
-    // Cantidad de pasajeros igual a multiplo de capacidad tren para que no se bloqueen y fue
-    
     public static void main(String[] args) {
         
         crearTerminales();  
