@@ -12,11 +12,11 @@ public class Reloj extends Thread {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(500); // 5s simulan 1h
+                Thread.sleep(5000);     // 1h = 5s
                 tiempo.avanzarHora();
                 if (!tiempo.estaAbierto()) {
                     aeropuerto.cerrarAeropuerto();
-                    Thread.sleep(1500);         // Simulo cierre de 22 a 6
+                    Thread.sleep(10000);         // Simulo cierre de 22 a 6
                     tiempo.saltar();
                     aeropuerto.abrirAeropuerto();      // Luego, abre de nuevo
                 }

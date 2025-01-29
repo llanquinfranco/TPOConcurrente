@@ -2,20 +2,22 @@ import java.util.concurrent.CyclicBarrier;
 
 public class Tren {
 
+    private int capacidad;
+    private int ocupacion;
     private int debenBajar;
-    private boolean estaLleno;
     private boolean estaEnRecorrido;
     private boolean haLlegadoATerminal;
     private char terminalActual;
     private CyclicBarrier barrera;
 
     public Tren(int capacidad) {
+        this.capacidad = capacidad;
+        this.ocupacion = 0;
+        this.debenBajar = 0;
         Runnable accion = () -> {
             iniciar();
         };
         this.barrera = new CyclicBarrier(capacidad, accion);
-        this.debenBajar = 0;
-        this.estaLleno = false;
         this.estaEnRecorrido = false;
         this.haLlegadoATerminal = false;
     }
@@ -24,11 +26,12 @@ public class Tren {
     public void subirTren(String pasajero) { // synchronized o se bloquea?
         try {
             synchronized (this) {
-                while (estaEnRecorrido) {
+                while (estaEnRecorrido || ocupacion >= capacidad) {
                     this.wait();
                 }
+                ocupacion++;
+                System.out.println("El " + pasajero + " subio al tren. " + ocupacion + "/" + capacidad);
             }
-            System.out.println("El " + pasajero + " entro al tren");
             barrera.await(); // Espera a que el tren este lleno
         } catch (Exception e) {
             System.out.println("Error en el " + pasajero + " al subirse al tren");
@@ -46,6 +49,7 @@ public class Tren {
                 this.wait();
             }
             debenBajar--;
+            ocupacion--;
             System.out.println("El " + pasajero + " se bajo en la terminal " + terminal);
             if (debenBajar == 0) { // Baja y si es el ultimo que le avise al chofer
                 this.notifyAll();
@@ -55,13 +59,18 @@ public class Tren {
         }
     }
 
+    // Accion para cuando se libera la barrera
+    public synchronized void iniciar() {
+        estaEnRecorrido = true;
+        notifyAll();
+    }
+
     // Metodo para ControlTren
     public synchronized void iniciarRecorrido() {
         try {
-            while (!estaLleno) {
+            while (!estaEnRecorrido) {
                 this.wait();
             }
-            estaEnRecorrido = true;
             System.out.println("El tren inicio el recorrido");
         } catch (Exception e) {
             System.out.println("Error en el chofer al iniciar el recorrido");
@@ -71,7 +80,7 @@ public class Tren {
     // Metodo para ControlTren
     public synchronized void viajarATerminal(char terminal) {
         terminalActual = terminal;
-        System.out.println("El tren se esta dirigiendo a la terminal " + terminal);
+        System.out.println("El tren se dirige a la terminal " + terminal);
         this.notifyAll();
     }
 
@@ -79,7 +88,7 @@ public class Tren {
     public synchronized void frenarEnTerminal() {
         if (debenBajar > 0) {
             haLlegadoATerminal = true;
-            System.out.println("El tren se detuvo");
+            System.out.println("El tren se detuvo en la terminal " + terminalActual);
             this.notifyAll();
         }
     }
@@ -100,22 +109,13 @@ public class Tren {
     public synchronized void finalizarRecorrido() {
         try {
             terminalActual = ' ';
-
-            estaLleno = false;
+            ocupacion = 0;
             estaEnRecorrido = false;
-            // haLlegadoATerminal = false;
+            System.out.println("El tren finalizo el recorrido");
             this.notifyAll();
-
         } catch (Exception e) {
             System.out.println("Error en el chofer al finalizar con el recorrido");
         }
-    }
-
-    // Accion para cuando se libera la barrera
-    public synchronized void iniciar() {
-        estaLleno = true;
-        estaEnRecorrido = true;
-        notifyAll();
     }
 
 }

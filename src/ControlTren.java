@@ -13,7 +13,7 @@ public class ControlTren extends Thread {
         char terminal;
         while (true) {
             try {
-                tren.iniciarRecorrido();;
+                tren.iniciarRecorrido();
                 for (int i = 0; i < terminales.length; i++) {
                     terminal = terminales[i].getLetra();
                     tren.viajarATerminal(terminal);

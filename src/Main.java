@@ -62,6 +62,10 @@ public class Main {
             int puestoEmbarque = puestosEmbarque[random.nextInt(puestosEmbarque.length)];
             int horaSalida = random.nextInt(6, 23);
             vuelos[i] = new Vuelo(aerolineas[i], terminal, puestoEmbarque, horaSalida);
+            System.out.println("Vuelo creado: " + aerolineas[i] + " ");
+            // puesto embarque en realidad que sea random cuando le asigno el vuelo al pasajero
+            // obvio que pertenezca a esa terminal
+
         }
     }
 
