@@ -35,10 +35,9 @@ public class PuestoAtencion {
             accesoPuesto.lock();
             cantidadHall++;
             while(cantidadFila == cantidadMaxima) {
-                System.out.println("El " + pasajero + " esta esperando en el hall");
                 esperaHall.await();
             }
-            System.out.println("El " + pasajero + " ingreso a la fila del puesto de atencion");
+            System.out.println(pasajero + " ingresó a la fila del Puesto de Atencion de " + aerolinea);
             filaCheckIn.add(pasajero);
             cantidadFila++;
             cantidadHall--;
@@ -55,7 +54,6 @@ public class PuestoAtencion {
             while(!pasajero.equals(filaCheckIn.peek())) {
                 esperaFila.await();
             }
-            System.out.println("El " + pasajero + " esta realizando el check-in de su vuelo de " + aerolinea);
         } finally {
             accesoPuesto.unlock();
         }
@@ -66,8 +64,8 @@ public class PuestoAtencion {
         try {
             accesoPuesto.lock();
             int puestoAsignado = vuelo.getPuestoEmbarque();
-            System.out.println("El " + pasajero + " ya realizo el check-in y salio del puesto de atencion");
-            System.out.println("Al " + pasajero + " se le asigno el puesto de embarque: " + puestoAsignado);
+            System.out.println(pasajero + " realizó el check-in del Vuelo de " + aerolinea);
+            System.out.println(pasajero + " obtuvo el puesto de embarque: " + puestoAsignado);
             cantidadFila--;
             filaCheckIn.poll();
             esperaFila.signal();
@@ -85,7 +83,6 @@ public class PuestoAtencion {
             while(cantidadFila == cantidadMaxima || cantidadHall == 0) {
                 esperaGuardia.await();
             }
-            System.out.println("El guardia hizo pasar un pasajero");
             esperaHall.signal();
         } finally {
             accesoPuesto.unlock();

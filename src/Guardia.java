@@ -9,9 +9,10 @@ public class Guardia extends Thread {
     public void run() {
         while (true) {
             try {
+                // Avisa a los pasajeros cuando se libera un lugar del puesto de atencion
                 puestoAtencion.darPasoAPasajero();
             } catch (Exception e) {
-                System.out.println("Error con el guardia del puesto de atencion");
+                System.out.println("ERROR: Ocurrió un problema con el Guardia del Puesto de Atencion: " + e.getMessage());
             }
         }
     }

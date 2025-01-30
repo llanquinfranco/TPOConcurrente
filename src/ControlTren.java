@@ -30,7 +30,7 @@ public class ControlTren extends Thread {
                 // Simula el tiempo que tarda el tren en volver al inicio
                 Thread.sleep(random.nextInt(500, 2500));
             } catch (Exception e) {
-                System.out.println("Error en el chofer del tren");
+                System.out.println("ERROR: Ocurrió un problema con el Chofer del Tren: " + e.getMessage());
             }
         }
     }

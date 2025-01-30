@@ -37,17 +37,17 @@ public class Vuelo {
     // Metodo para Pasajero
     public void embarcarEsperarDespegue(String pasajero, int puestoEmbarque) {
         try {
-            System.out.println("El " + pasajero + " esta embarcando el vuelo de " + aerolinea + " en el puesto de embarque " + puestoEmbarque);
+            System.out.println(pasajero + " abordó el avión de " + aerolinea + " en el Puesto de Embarque " + puestoEmbarque);
             latchEmbarque.countDown();
             latchEmbarque.await();
             synchronized (this) {
                 if (!yaDespego) {
                     yaDespego = true;
-                    System.out.println("El vuelo de " + aerolinea + " acaba de despegar");
+                    System.out.println("Todos los pasajeros abordaron el avión. El Vuelo de " + aerolinea + " ha despegado");
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error al embarcar y/o esperar el llamado de embarque");
+            System.out.println("ERROR: Ocurrió un problema con el " + pasajero + " al intentar abordar el avión: " + e.getMessage());
         }
     }
 
@@ -55,7 +55,7 @@ public class Vuelo {
     public synchronized void notificarComienzoEmbarque() {
         if(!embarqueIniciado) {
             embarqueIniciado = true;
-            System.out.println("El vuelo de " + aerolinea + " esta listo para comenzar a embarcar");
+            System.out.println("El Vuelo de " + aerolinea + " está listo para comenzar a embarcar");
         }
     }
 

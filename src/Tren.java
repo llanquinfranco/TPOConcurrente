@@ -24,23 +24,23 @@ public class Tren {
     }
 
     // Metodo para Pasajero
-    public void subirTren(String pasajero) {
+    public void subirTren(String pasajero, char terminal) {
         try {
             synchronized (this) {
                 while (inicioRecorrido || ocupacion >= capacidad || !sePuedenSubir) {
                     this.wait();
                 }
                 ocupacion++;
-                System.out.println("El " + pasajero + " subio al tren. " + ocupacion + "/" + capacidad);
+                System.out.println(pasajero + " subió al Tren con destino a la Terminal " + terminal + ". " + ocupacion + "/" + capacidad);
             }
             barrera.await(); // Espera a que el tren este lleno
         } catch (Exception e) {
-            System.out.println("Error en el " + pasajero + " al subirse al tren");
+            System.out.println("ERROR: Ocurrió un problema con el " + pasajero + " al intentar subir al Tren: " + e.getMessage());
         }
     }
 
     // Metodo para Pasajero
-    public synchronized void bajarTren(char terminal, String pasajero) {
+    public synchronized void bajarTren(String pasajero, char terminal) {
         try {
             while (terminal != terminalActual) {
                 this.wait();
@@ -51,12 +51,12 @@ public class Tren {
             }
             debenBajar--;
             ocupacion--;
-            System.out.println("El " + pasajero + " se bajo en la terminal " + terminal + ". " + ocupacion + "/" + capacidad);
+            System.out.println(pasajero + " llegó a la Terminal " + terminal + ". " + ocupacion + "/" + capacidad);
             if (debenBajar == 0) { // Baja y si es el ultimo que le avise al chofer
                 this.notifyAll();
             }
         } catch (Exception e) {
-            System.out.println("Error en el pasajero al bajarse del tren");
+            System.out.println("ERROR: Ocurrió un problema con el " + pasajero + " al intentar bajar del Tren: " + e.getMessage());
         }
     }
 
@@ -69,7 +69,7 @@ public class Tren {
     // Metodo para ControlTren
     public synchronized void habilitarAcceso() {
         sePuedenSubir = true;
-        System.out.println("El tren esta esperando pasajeros");
+        System.out.println("El Tren esta listo para recibir pasajeros");
         this.notifyAll();
     }
 
@@ -80,16 +80,16 @@ public class Tren {
                 this.wait();
             }
             sePuedenSubir = false;
-            System.out.println("El tren inicio el recorrido");
+            System.out.println("El Tren ha iniciado el recorrido");
         } catch (Exception e) {
-            System.out.println("Error en el chofer al iniciar el recorrido");
+            System.out.println("ERROR: Ocurrió un problema con el Chofer del Tren al intentar iniciar el recorrido: " + e.getMessage());
         }
     }
 
     // Metodo para ControlTren
     public synchronized void viajarATerminal(char terminal) {
         terminalActual = terminal;
-        System.out.println("El tren se dirige a la terminal " + terminal);
+        System.out.println("El Tren se dirige a la Terminal " + terminal);
         this.notifyAll();
     }
 
@@ -97,7 +97,7 @@ public class Tren {
     public synchronized void frenarEnTerminal() {
         if (debenBajar > 0) {
             haLlegadoATerminal = true;
-            System.out.println("El tren se detuvo en la terminal " + terminalActual);
+            System.out.println("El Tren se detuvo en la Terminal " + terminalActual);
             this.notifyAll();
         }
     }
@@ -110,7 +110,7 @@ public class Tren {
             }
             haLlegadoATerminal = false;
         } catch (Exception e) {
-            System.out.println("Error en el chofer al continuar con el recorrido");
+            System.out.println("ERROR: Ocurrió un problema con el Chofer del Tren al intentar continuar con el recorrido: " + e.getMessage());
         }
     }
 
@@ -120,10 +120,10 @@ public class Tren {
             terminalActual = ' ';
             ocupacion = 0;
             inicioRecorrido = false;
-            System.out.println("El tren finalizo el recorrido. Volviendo al inicio");
+            System.out.println("El Tren finalizó el recorrido y esta volviendo al inicio");
             this.notifyAll();
         } catch (Exception e) {
-            System.out.println("Error en el chofer al finalizar con el recorrido");
+            System.out.println("ERROR: Ocurrió un problema con el Chofer del Tren al intentar finalizar el recorrido: " + e.getMessage());
         }
     }
 

@@ -14,14 +14,15 @@ public class Tiempo {
     }
 
     // Metodo para Pasajero
-    public synchronized void esperarLlamadoEmbarque(int horaSalida, Vuelo vuelo) {
+    public synchronized void esperarLlamadoEmbarque(String pasajero, int horaSalida, Vuelo vuelo) {
         try {
             while(horaActual < horaSalida) {
+                System.out.println(pasajero + " está esperando el llamado para embarcar");
                 this.wait();
             }
             vuelo.notificarComienzoEmbarque();
         } catch (Exception e) {
-            System.out.println("Error al esperar el llamado de embarque");
+            System.out.println("ERROR: Ocurrió un problema con el " + pasajero + " al esperar el llamado de embarque: " + e.getMessage());
         }
     }
 

@@ -69,7 +69,7 @@ public class Main {
             System.out.println("Hora de salida: " + horaSalida + ":00");
             System.out.println("Terminal asignada: " + terminal.getLetra());
             System.out.println("Puestos de embarque disponibles: " + Arrays.toString(puestosEmbarque));
-            System.out.println("---------------------------------------------------------");
+            System.out.println("----------------------------------------------------------------");
         }
     }
 
@@ -82,12 +82,12 @@ public class Main {
             System.out.println("Pasajero "+ (i + 1) + ": Adquirió reserva para el vuelo de " + vuelo.getAerolinea());
             pasajero.start();
         }
-        System.out.println("---------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------");
         // Inicializo los CountDownLatch de cada vuelo
         for (int i = 0; i < vuelos.length; i++) {
             vuelos[i].inicializarCountDownLatch();
         }
-        System.out.println("---------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------");
     }
 
 }

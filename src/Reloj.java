@@ -10,19 +10,21 @@ public class Reloj extends Thread {
     }
 
     public void run() {
-        
         while (true) {
             try {
-                Thread.sleep(5000);     // 1h = 5s
+                // 1 hora en el sistema = 5 segundos en la vida real
+                Thread.sleep(5000);     
                 tiempo.avanzarHora();
                 if (!tiempo.estaAbierto()) {
                     aeropuerto.cerrarAeropuerto();
-                    Thread.sleep(10000);         // Simulo cierre de 22 a 6
+                    // Simulo cierre de 22 a 6
+                    Thread.sleep(10000);
                     tiempo.saltar();
-                    aeropuerto.abrirAeropuerto();      // Luego, abre de nuevo
+                    // Luego, el Aeropuerto abre de nuevo
+                    aeropuerto.abrirAeropuerto();
                 }
             } catch (Exception e) {
-                System.out.println("Error con el reloj");
+                System.out.println("ERROR: Ocurrió un problema con el Reloj: " + e.getMessage());
             }
         }
 

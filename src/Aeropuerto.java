@@ -4,8 +4,6 @@ public class Aeropuerto {
     private Tren tren;
     private boolean estaAbierto;
 
-
-
     public Aeropuerto(PuestoAtencion[] puestosAtencion, Tren tren) {
         this.puestosAtencion = puestosAtencion;
         this.tren = tren;
@@ -19,21 +17,21 @@ public class Aeropuerto {
             while (!estaAbierto) {
                 this.wait();
             }
-            System.out.println("El " + pasajero + " entró al aeropuerto y se dirige al puesto de informes");
+            System.out.println(pasajero + " ingresó al Aeropuerto");
         } catch (Exception e) {
-            
+            System.out.println("ERROR: Ocurrió un problema con el " + pasajero + " al intentar ingresar al Aeropuerto: " + e.getMessage());
         }
     }
 
     // Metodo para Pasajero
-    public synchronized PuestoAtencion ingresarPuestoInformes(String pasajero, String nombre) {
+    public synchronized PuestoAtencion ingresarPuestoInformes(String pasajero, String aerolinea) {
         int i = 0;
         PuestoAtencion puesto = null;
-        while(!nombre.equals(puestosAtencion[i].getAerolinea())) {
+        while(!aerolinea.equals(puestosAtencion[i].getAerolinea())) {
             i++;
         }
         puesto = puestosAtencion[i];
-        System.out.println("El " + pasajero + " recibio indicaciones del puesto de informes");
+        System.out.println(pasajero + " llegó al Puesto de Informes y fue derivado al Puesto de Atencion de " + aerolinea);
         return puesto;
     }
 
@@ -41,18 +39,18 @@ public class Aeropuerto {
     public synchronized void abrirAeropuerto() {
         estaAbierto = true;
         System.out.println();
-        System.out.println("Son las 6:00. El aeropuerto comenzó su horario de atencion");
+        System.out.println("Son las 6:00. El Aeropuerto comenzó su horario de atencion");
         System.out.println();
         this.notifyAll();
     }
 
     // Metodo para Reloj
     public synchronized void cerrarAeropuerto() {
+        System.out.println();
+        System.out.println("Son las 22:00. El Aeropuerto finalizó su horario de atencion");
+        System.out.println();
         estaAbierto = false;
-        System.out.println();
-        System.out.println("Son las 22:00. El aeropuerto finalizó su horario de atencion");
-        System.out.println();
-        // this.notifyAll();
+        this.notifyAll();
     }
 
     public Tren getTren() {

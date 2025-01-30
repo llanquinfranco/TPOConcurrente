@@ -13,23 +13,20 @@ public class FreeShop {
     
     // Metodo para Pasajero
     public void ingresarFreeShop(String pasajero) throws InterruptedException {
-        System.out.println("El " + pasajero + " esta intentando ingresar al FreeShop");
         capacidad.acquire();
-        System.out.println("El " + pasajero + " pudo ingresar al FreeShop");
+        System.out.println(pasajero + " ingresó al FreeShop");
     }
 
     // Metodo para Pasajero
     public void comprar(String pasajero) throws InterruptedException {
-        System.out.println("El " + pasajero + " esta esperando en una caja");
         cajas.acquire();
-        System.out.println("El " + pasajero + " esta siendo atendido en una caja");
+        System.out.println(pasajero + " realizó una compra");
         cajas.release();
-        System.out.println("El " + pasajero + " pago sus productos del FreeShop");
     }
 
     // Metodo para Pasajero
     public void salirFreeShop(String pasajero) {
-        System.out.println("El " + pasajero + " salio ingresar al FreeShop");
+        System.out.println(pasajero + " salió del FreeShop");
         capacidad.release();
     }
 

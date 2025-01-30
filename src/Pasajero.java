@@ -41,8 +41,8 @@ public class Pasajero extends Thread {
 
             // Simula el tiempo que tarda el pasajero en llegar al tren luego de salir del puesto de atencion
             Thread.sleep(random.nextInt(500, 3000));
-            tren.subirTren(nombre);
-            tren.bajarTren(terminal.getLetra(), nombre);
+            tren.subirTren(nombre, terminal.getLetra());
+            tren.bajarTren(nombre, terminal.getLetra());
 
             int horaSalida = vuelo.getHoraSalida();
             // Si quiere y tiene tiempo, ingresa al FreeShop
@@ -59,11 +59,11 @@ public class Pasajero extends Thread {
             }
 
             // Espera el llamado de embarque en la terminal
-            tiempo.esperarLlamadoEmbarque(horaSalida, vuelo);
+            tiempo.esperarLlamadoEmbarque(nombre, horaSalida, vuelo);
             vuelo.embarcarEsperarDespegue(nombre, puestoEmbarque);
 
         } catch (Exception e) {
-            System.out.println("Error en el pasajero " + nombre);
+            System.out.println("ERROR: Ocurrió un problema con el " + nombre + ": " + e.getMessage());
         }
     }
 
