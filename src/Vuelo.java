@@ -1,20 +1,22 @@
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
 public class Vuelo {
 
     private String aerolinea;
     private Terminal terminal;
-    private int puestoEmbarque;
+    private int[] puestosEmbarque;
     private int horaSalida;
     private int cantidadPasajeros;
     private boolean embarqueIniciado;
     private boolean yaDespego;
     private CountDownLatch latchEmbarque;
+    private Random random = new Random();
 
-    public Vuelo(String aerolinea, Terminal terminal, int puestoEmbarque, int horaSalida) {
+    public Vuelo(String aerolinea, Terminal terminal, int[] puestosEmbarque, int horaSalida) {
         this.aerolinea = aerolinea;
         this.terminal = terminal;
-        this.puestoEmbarque = puestoEmbarque;
+        this.puestosEmbarque = puestosEmbarque;
         this.horaSalida = horaSalida;
         this.cantidadPasajeros = 0;
         this.embarqueIniciado = false;
@@ -28,13 +30,14 @@ public class Vuelo {
 
     // Metodo para Main
     public synchronized void inicializarCountDownLatch() {
+        System.out.println("Vuelo de " + aerolinea + ": " + cantidadPasajeros + " reservas");
         latchEmbarque = new CountDownLatch(cantidadPasajeros);
     }
 
     // Metodo para Pasajero
-    public void embarcarEsperarDespegue(String pasajero) {
+    public void embarcarEsperarDespegue(String pasajero, int puestoEmbarque) {
         try {
-            System.out.println("El " + pasajero + " esta embarcando el vuelo de " + aerolinea);
+            System.out.println("El " + pasajero + " esta embarcando el vuelo de " + aerolinea + " en el puesto de embarque " + puestoEmbarque);
             latchEmbarque.countDown();
             latchEmbarque.await();
             synchronized (this) {
@@ -64,8 +67,9 @@ public class Vuelo {
         return terminal;
     }
 
+    // Random para el pasajero
     public int getPuestoEmbarque() {
-        return puestoEmbarque;
+        return puestosEmbarque[random.nextInt(puestosEmbarque.length)];
     }
 
     public int getHoraSalida() {

@@ -9,7 +9,7 @@ public class Aeropuerto {
     public Aeropuerto(PuestoAtencion[] puestosAtencion, Tren tren) {
         this.puestosAtencion = puestosAtencion;
         this.tren = tren;
-        this.estaAbierto = true;
+        this.estaAbierto = false;
     }
     
     // Metodo para Pasajero
@@ -17,7 +17,6 @@ public class Aeropuerto {
         // Si el aeropuerto esta cerrado, el pasajero debe esperar a que abra
         try {
             while (!estaAbierto) {
-                System.out.println("El " + pasajero + " esta esperando a que abra el aeropuerto");
                 this.wait();
             }
             System.out.println("El " + pasajero + " entró al aeropuerto y se dirige al puesto de informes");
@@ -27,17 +26,18 @@ public class Aeropuerto {
     }
 
     // Metodo para Pasajero
-    public synchronized PuestoAtencion ingresarPuestoInformes(String nombre) {
+    public synchronized PuestoAtencion ingresarPuestoInformes(String pasajero, String nombre) {
         int i = 0;
         PuestoAtencion puesto = null;
         while(!nombre.equals(puestosAtencion[i].getAerolinea())) {
             i++;
         }
         puesto = puestosAtencion[i];
+        System.out.println("El " + pasajero + " recibio indicaciones del puesto de informes");
         return puesto;
     }
 
-    // Metodo para Reloj
+    // Metodo para Main(una vez) y Reloj
     public synchronized void abrirAeropuerto() {
         estaAbierto = true;
         System.out.println();

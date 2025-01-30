@@ -6,8 +6,6 @@ public class Tiempo {
     public Tiempo() {
         this.horaActual = 6;  // Inicializada a las 06hs (inicio de actividades)
         this.abierto = true;
-        System.out.println("Son las 6:00. El aeropuerto comenzó su horario de atencion");
-        System.out.println();
     }
 
     // Metodo para Pasajero

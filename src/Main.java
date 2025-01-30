@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 
 public class Main {
@@ -20,15 +21,17 @@ public class Main {
         crearVuelos();
 
         Tren tren = new Tren(capacidadTren);
-        ControlTren chofer = new ControlTren(tren, terminales);
-        chofer.start();
-
         Aeropuerto aeropuerto = new Aeropuerto(puestosAtencion, tren);
         Tiempo tiempo = new Tiempo();
 
         crearPasajeros(aeropuerto, tiempo);
-        
+
         Reloj reloj = new Reloj(aeropuerto, tiempo);
+        aeropuerto.abrirAeropuerto();
+        
+        ControlTren chofer = new ControlTren(tren, terminales);
+        chofer.start();
+
         reloj.start();
 
     }
@@ -59,13 +62,14 @@ public class Main {
         for (int i = 0; i < aerolineas.length; i++) {
             Terminal terminal = terminales[random.nextInt(terminales.length)];
             int[] puestosEmbarque = terminal.getPuestosEmbarque();
-            int puestoEmbarque = puestosEmbarque[random.nextInt(puestosEmbarque.length)];
             int horaSalida = random.nextInt(6, 23);
-            vuelos[i] = new Vuelo(aerolineas[i], terminal, puestoEmbarque, horaSalida);
-            System.out.println("Vuelo creado: " + aerolineas[i] + " ");
-            // puesto embarque en realidad que sea random cuando le asigno el vuelo al pasajero
-            // obvio que pertenezca a esa terminal
-
+            vuelos[i] = new Vuelo(aerolineas[i], terminal, puestosEmbarque, horaSalida);
+            System.out.println("Vuelo creado");
+            System.out.println("Aerolinea: " + aerolineas[i]);
+            System.out.println("Hora de salida: " + horaSalida + ":00");
+            System.out.println("Terminal asignada: " + terminal.getLetra());
+            System.out.println("Puestos de embarque disponibles: " + Arrays.toString(puestosEmbarque));
+            System.out.println("---------------------------------------------------------");
         }
     }
 
@@ -75,12 +79,15 @@ public class Main {
             Vuelo vuelo = vuelos[random.nextInt(vuelos.length)];
             vuelo.registrarReserva();
             Pasajero pasajero = new Pasajero("Pasajero " + (i + 1), aeropuerto, vuelo, tiempo);
+            System.out.println("Pasajero "+ (i + 1) + ": Adquirió reserva para el vuelo de " + vuelo.getAerolinea());
             pasajero.start();
         }
+        System.out.println("---------------------------------------------------------");
         // Inicializo los CountDownLatch de cada vuelo
         for (int i = 0; i < vuelos.length; i++) {
             vuelos[i].inicializarCountDownLatch();
         }
+        System.out.println("---------------------------------------------------------");
     }
 
 }

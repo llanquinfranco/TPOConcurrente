@@ -10,6 +10,7 @@ public class Reloj extends Thread {
     }
 
     public void run() {
+        
         while (true) {
             try {
                 Thread.sleep(5000);     // 1h = 5s

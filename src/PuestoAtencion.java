@@ -39,7 +39,7 @@ public class PuestoAtencion {
                 esperaHall.await();
             }
             System.out.println("El " + pasajero + " ingreso a la fila del puesto de atencion");
-            filaCheckIn.add(pasajero);  // como hago para añadir el pasajero a la cola
+            filaCheckIn.add(pasajero);
             cantidadFila++;
             cantidadHall--;
             esperaGuardia.signal();
@@ -55,21 +55,24 @@ public class PuestoAtencion {
             while(!pasajero.equals(filaCheckIn.peek())) {
                 esperaFila.await();
             }
-            System.out.println("El " + pasajero + " esta realizando el check-in de su vuelo");
+            System.out.println("El " + pasajero + " esta realizando el check-in de su vuelo de " + aerolinea);
         } finally {
             accesoPuesto.unlock();
         }
     }
 
     // Metodo para Pasajero
-    public void salirPuestoAtencion(String pasajero) throws InterruptedException {
+    public int salirPuestoAtencion(String pasajero, Vuelo vuelo) throws InterruptedException {
         try {
             accesoPuesto.lock();
+            int puestoAsignado = vuelo.getPuestoEmbarque();
             System.out.println("El " + pasajero + " ya realizo el check-in y salio del puesto de atencion");
+            System.out.println("Al " + pasajero + " se le asigno el puesto de embarque: " + puestoAsignado);
             cantidadFila--;
             filaCheckIn.poll();
             esperaFila.signal();
             esperaGuardia.signal();
+            return puestoAsignado;
         } finally {
             accesoPuesto.unlock();
         }
@@ -82,7 +85,7 @@ public class PuestoAtencion {
             while(cantidadFila == cantidadMaxima || cantidadHall == 0) {
                 esperaGuardia.await();
             }
-            System.out.println("El guardia hizo pasar un pasajero ¿?");
+            System.out.println("El guardia hizo pasar un pasajero");
             esperaHall.signal();
         } finally {
             accesoPuesto.unlock();
