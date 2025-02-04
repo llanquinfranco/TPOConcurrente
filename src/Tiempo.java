@@ -16,8 +16,8 @@ public class Tiempo {
     // Metodo para Pasajero
     public synchronized void esperarLlamadoEmbarque(String pasajero, int horaSalida, Vuelo vuelo) {
         try {
+            System.out.println(pasajero + " está esperando el llamado para embarcar");
             while(horaActual < horaSalida) {
-                System.out.println(pasajero + " está esperando el llamado para embarcar");
                 this.wait();
             }
             vuelo.notificarComienzoEmbarque();

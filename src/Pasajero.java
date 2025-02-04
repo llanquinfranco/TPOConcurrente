@@ -20,7 +20,7 @@ public class Pasajero extends Thread {
     public void run() {
         try {
             // Para que los pasajeros entren a distintas horas del dia y no apenas abre el aeropuerto
-            Thread.sleep(random.nextInt(1000, 50000));
+            Thread.sleep(random.nextInt(1000, 30000));
             aeropuerto.ingresarAeropuerto(nombre);
             // Simula el tiempo que tarda el pasajero en llegar al puesto de informes luego de entrar al aeropuerto
             Thread.sleep(random.nextInt(500, 3000));

@@ -5,9 +5,9 @@ public class Main {
     
     private static final int cantTerminales = 4;
     private static final int cantPuestosEmbarque = 6;   // Cantidad por terminal
-    private static final int capacidadTren = 10;
+    private static final int capacidadTren = 4;
     private static final int capacidadFreeShop = 8;
-    private static final int cantPasajeros = capacidadTren * 10;    // Multiplo de capacidadTren para que no se bloqueen
+    private static final int cantPasajeros = 12;    // Multiplo de capacidadTren para que no se bloqueen
     private static final Terminal[] terminales = new Terminal[cantTerminales];
     private static final String[] aerolineas = new String[]{"Emirates", "Air France", "Qatar Airways", "American Airlines"};
     private static final PuestoAtencion[] puestosAtencion = new PuestoAtencion[aerolineas.length];

@@ -1,5 +1,5 @@
-import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -10,7 +10,7 @@ public class PuestoAtencion {
     private int cantidadMaxima;
     private int cantidadFila;
     private int cantidadHall;
-    private Queue<String> filaCheckIn;  // Ver que puedo usar mejor para obtener el ultimo lugar
+    private Queue<String> filaCheckIn;  // Ahora es una cola concurrente
     private Lock accesoPuesto;
     private Condition esperaHall;
     private Condition esperaFila;
@@ -22,68 +22,72 @@ public class PuestoAtencion {
         this.cantidadMaxima = cantidadMaxima;
         this.cantidadFila = 0;
         this.cantidadHall = 0;
-        this.filaCheckIn = new LinkedList<>();
+        this.filaCheckIn = new ConcurrentLinkedQueue<>();  // Cola concurrente
         this.accesoPuesto = new ReentrantLock();
         this.esperaHall = accesoPuesto.newCondition();
         this.esperaFila = accesoPuesto.newCondition();
         this.esperaGuardia = accesoPuesto.newCondition();
     }
 
-    // Metodo para Pasajero
+    // Método para Pasajero
     public void ingresarPuestoAtencion(String pasajero) throws InterruptedException {
         try {
             accesoPuesto.lock();
             cantidadHall++;
+            // Si la fila está llena, el pasajero debe esperar
             while(cantidadFila == cantidadMaxima) {
                 esperaHall.await();
             }
-            System.out.println(pasajero + " ingresó a la fila del Puesto de Atencion de " + aerolinea);
+            System.out.println(pasajero + " ingresó a la fila del Puesto de Atención de " + aerolinea);
             filaCheckIn.add(pasajero);
             cantidadFila++;
             cantidadHall--;
-            esperaGuardia.signal();
+            esperaGuardia.signalAll();
         } finally {
             accesoPuesto.unlock();
         }
     }
 
-    // Metodo para Pasajero
+    // Método para Pasajero
     public void realizarCheckIn(String pasajero) throws InterruptedException {
         try {
             accesoPuesto.lock();
+            // El pasajero debe esperar su turno (el primero de la fila)
             while(!pasajero.equals(filaCheckIn.peek())) {
                 esperaFila.await();
             }
+            // Procedimiento de check-in (imaginamos que hace algo aquí)
         } finally {
             accesoPuesto.unlock();
         }
     }
 
-    // Metodo para Pasajero
+    // Método para Pasajero
     public int salirPuestoAtencion(String pasajero, Vuelo vuelo) throws InterruptedException {
         try {
             accesoPuesto.lock();
             int puestoAsignado = vuelo.getPuestoEmbarque();
             System.out.println(pasajero + " realizó el check-in del Vuelo de " + aerolinea);
             System.out.println(pasajero + " obtuvo el puesto de embarque: " + puestoAsignado);
+            filaCheckIn.poll(); // Eliminar al pasajero de la fila
             cantidadFila--;
-            filaCheckIn.poll();
-            esperaFila.signal();
-            esperaGuardia.signal();
+            esperaFila.signal(); // Despertar al siguiente pasajero
+            esperaGuardia.signal(); // Notificar a la guardia
             return puestoAsignado;
         } finally {
             accesoPuesto.unlock();
         }
     }
 
-    // Metodo para Guardia
+    // Método para Guardia
     public void darPasoAPasajero() throws InterruptedException {
         try {
             accesoPuesto.lock();
-            while(cantidadFila == cantidadMaxima || cantidadHall == 0) {
+            // Si la fila está llena o no hay pasajeros en el hall, la guardia debe esperar
+            while(cantidadFila >= cantidadMaxima || cantidadHall == 0) {
                 esperaGuardia.await();
             }
-            esperaHall.signal();
+            esperaHall.signal(); // Dejar pasar a un pasajero de la fila
         } finally {
             accesoPuesto.unlock();
         }
@@ -94,3 +98,4 @@ public class PuestoAtencion {
     }
 
 }
+
