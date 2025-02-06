@@ -12,8 +12,8 @@ public class Aeropuerto {
     
     // Metodo para Pasajero
     public synchronized void ingresarAeropuerto(String pasajero) {
-        // Si el aeropuerto esta cerrado, el pasajero debe esperar a que abra
         try {
+            // Si el aeropuerto esta cerrado, el pasajero debe esperar a que abra
             while (!estaAbierto) {
                 this.wait();
             }
@@ -28,6 +28,7 @@ public class Aeropuerto {
     public synchronized PuestoAtencion ingresarPuestoInformes(String pasajero, String aerolinea) {
         int i = 0;
         PuestoAtencion puesto = null;
+        // Busca el puesto de atencion que le corresponde al pasajero
         while(!aerolinea.equals(puestosAtencion[i].getAerolinea())) {
             i++;
         }

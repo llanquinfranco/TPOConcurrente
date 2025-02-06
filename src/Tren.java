@@ -24,15 +24,12 @@ public class Tren {
     public  void subirTren(String pasajero, char terminal) {
         try {
             synchronized (this) {
+                // Si ha comenzado el recorrido o el tren esta lleno, espera
                 while (ocupacion >= capacidad || !sePuedenSubir) {
                     this.wait();
                 }
                 ocupacion++;
                 System.out.println(pasajero + " subió al Tren con destino a la Terminal " + terminal + ". " + ocupacion + "/" + capacidad);
-                if (ocupacion == capacidad) {
-                    sePuedenSubir = false; 
-                    notifyAll(); 
-                }
             }
             barrera.await(); // Espera a que el tren este lleno
         } catch (Exception e) {
@@ -59,6 +56,7 @@ public class Tren {
     // Accion para cuando se libera la barrera
     public synchronized void iniciar() {
         inicioRecorrido = true;
+        sePuedenSubir = false;
         this.notifyAll();
     }
 

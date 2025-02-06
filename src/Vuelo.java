@@ -25,11 +25,13 @@ public class Vuelo {
 
     // Metodo para Main
     public synchronized void registrarReserva() {
+        // Para llevar la cuenta de la cantidad de pasajeros que adquirieron reserva del vuelo
         cantidadPasajeros++;
     }
 
     // Metodo para Main
     public synchronized void inicializarCountDownLatch() {
+        // Para que el avion despegue cuando suban todos los pasajeros
         System.out.println("Vuelo de " + aerolinea + ": " + cantidadPasajeros + " reservas");
         latchEmbarque = new CountDownLatch(cantidadPasajeros);
     }

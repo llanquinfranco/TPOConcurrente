@@ -8,7 +8,7 @@ public class FreeShop {
 
     public FreeShop(int espacio) {
         this.capacidad = new Semaphore(espacio);
-        this.cajas = new Semaphore(2);
+        this.cajas = new Semaphore(2);  // El free shop posee 2 cajas
     }
     
     // Metodo para Pasajero

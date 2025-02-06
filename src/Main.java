@@ -4,10 +4,10 @@ import java.util.Random;
 public class Main {
     
     private static final int cantTerminales = 4;
-    private static final int cantPuestosEmbarque = 6;   // Cantidad por terminal
-    private static final int capacidadTren = 4;
+    private static final int cantPuestosEmbarque = 6;   // Cantidad de puestos por terminal
+    private static final int capacidadTren = 10;
     private static final int capacidadFreeShop = 8;
-    private static final int cantPasajeros = 16;    // Multiplo de capacidadTren para que no se bloqueen
+    private static final int cantPasajeros = 50;    // Multiplo de capacidadTren para que siempre se llene el tren
     private static final Terminal[] terminales = new Terminal[cantTerminales];
     private static final String[] aerolineas = new String[]{"Emirates", "Air France", "Qatar Airways", "American Airlines"};
     private static final PuestoAtencion[] puestosAtencion = new PuestoAtencion[aerolineas.length];
@@ -26,6 +26,7 @@ public class Main {
 
         crearPasajeros(aeropuerto, tiempo);
 
+
         Reloj reloj = new Reloj(aeropuerto, tiempo);
         aeropuerto.abrirAeropuerto();
         
@@ -37,6 +38,9 @@ public class Main {
     }
 
     public static void crearTerminales() {
+        /* Metodo para crear las terminales del aeropuerto.
+        Cada una con su free shop y puestos de embarque correspondientes
+        (numerados en orden para facilitar la creacion) */ 
         char letraTerminal = 'A';
         int numeroPuerta = 1;
         for (int i = 0; i < terminales.length; i++) {
@@ -52,13 +56,17 @@ public class Main {
     }
 
     public static void crearAerolineas() {
-        int maxima = 3; // Fija por ahora
+        // Metodo para crear los puestos de atencion de cada aerolinea
+        int maxima = 3; // Capacidad maxima del puesto
         for(int i = 0; i < aerolineas.length; i++) {
             puestosAtencion[i] = new PuestoAtencion(aerolineas[i], maxima);
         }
     }
 
     public static void crearVuelos() {
+        /* Método para crear vuelos que pueden ser reservados por los pasajeros. 
+        Se crea un vuelo por cada aerolínea disponible, asignandole una terminal 
+        y hora de salida aleatoria. */ 
         for (int i = 0; i < aerolineas.length; i++) {
             Terminal terminal = terminales[random.nextInt(terminales.length)];
             int[] puestosEmbarque = terminal.getPuestosEmbarque();
@@ -74,7 +82,7 @@ public class Main {
     }
 
     public static void crearPasajeros(Aeropuerto aeropuerto, Tiempo tiempo) {
-        // Creo los hilos de Pasajero y le asigno un vuelo del arreglo
+        //Metodo para crear los hilos de los pasajeros y asignarle un vuelo de los disponibles
         for (int i = 0; i < cantPasajeros; i++) {
             Vuelo vuelo = vuelos[random.nextInt(vuelos.length)];
             vuelo.registrarReserva();

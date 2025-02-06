@@ -10,7 +10,7 @@ public class PuestoAtencion {
     private int cantidadMaxima;
     private int cantidadFila;
     private int cantidadHall;
-    private Queue<String> filaCheckIn;  // Ahora es una cola concurrente
+    private Queue<String> filaCheckIn;
     private Lock accesoPuesto;
     private Condition esperaHall;
     private Condition esperaFila;
@@ -22,7 +22,7 @@ public class PuestoAtencion {
         this.cantidadMaxima = cantidadMaxima;
         this.cantidadFila = 0;
         this.cantidadHall = 0;
-        this.filaCheckIn = new ConcurrentLinkedQueue<>();  // Cola concurrente
+        this.filaCheckIn = new ConcurrentLinkedQueue<>();
         this.accesoPuesto = new ReentrantLock();
         this.esperaHall = accesoPuesto.newCondition();
         this.esperaFila = accesoPuesto.newCondition();
@@ -35,7 +35,7 @@ public class PuestoAtencion {
             accesoPuesto.lock();
             cantidadHall++;
             // Si la fila está llena, el pasajero debe esperar
-            while(cantidadFila == cantidadMaxima) {
+            while(cantidadFila >= cantidadMaxima) {
                 esperaHall.await();
             }
             System.out.println(pasajero + " ingresó a la fila del Puesto de Atención de " + aerolinea);
@@ -56,7 +56,7 @@ public class PuestoAtencion {
             while(!pasajero.equals(filaCheckIn.peek())) {
                 esperaFila.await();
             }
-            // Procedimiento de check-in (imaginamos que hace algo aquí)
+            System.out.println(pasajero + " esta siendo atendido en el Puesto de Atención de " + aerolinea);
         } finally {
             accesoPuesto.unlock();
         }
@@ -71,8 +71,9 @@ public class PuestoAtencion {
             System.out.println(pasajero + " obtuvo el puesto de embarque: " + puestoAsignado);
             filaCheckIn.poll(); // Eliminar al pasajero de la fila
             cantidadFila--;
-            esperaFila.signal(); // Despertar al siguiente pasajero
-            esperaGuardia.signal(); // Notificar a la guardia
+            esperaFila.signalAll(); // Despertar al siguiente pasajero
+            esperaGuardia.signalAll(); // Despertar al guardia
+            esperaHall.signalAll(); // Despertar a los pasajeros del hall tambien
             return puestoAsignado;
         } finally {
             accesoPuesto.unlock();
@@ -83,11 +84,11 @@ public class PuestoAtencion {
     public void darPasoAPasajero() throws InterruptedException {
         try {
             accesoPuesto.lock();
-            // Si la fila está llena o no hay pasajeros en el hall, la guardia debe esperar
+            // Si la fila está llena o no hay pasajeros en el hall, el guardia debe esperar
             while(cantidadFila >= cantidadMaxima || cantidadHall == 0) {
                 esperaGuardia.await();
             }
-            esperaHall.signal(); // Dejar pasar a un pasajero de la fila
+            esperaHall.signalAll(); // Deja pasar a un pasajero a la fila
         } finally {
             accesoPuesto.unlock();
         }

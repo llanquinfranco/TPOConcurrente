@@ -29,11 +29,12 @@ public class Tiempo {
     // Metodo para Reloj
     public synchronized void avanzarHora() {
         this.horaActual++;
-        System.out.println();
-        System.out.println("Son las " + horaActual + ":00");
-        System.out.println();
         if (this.horaActual == 22) {
             this.abierto = false;
+        } else {
+            System.out.println();
+            System.out.println("Son las " + horaActual + ":00");
+            System.out.println();
         }
         this.notifyAll();
     }
