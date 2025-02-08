@@ -18,7 +18,7 @@ public class Aeropuerto {
                 this.wait();
             }
             System.out.println(pasajero + " ingresó al Aeropuerto");
-            this.notifyAll();
+            //this.notifyAll();
         } catch (Exception e) {
             System.out.println("ERROR: Ocurrió un problema con el " + pasajero + " al intentar ingresar al Aeropuerto: " + e.getMessage());
         }

@@ -49,6 +49,7 @@ public class Main {
                 puestosEmbarque[j] = numeroPuerta;
                 numeroPuerta++;
             }
+            System.out.println(letraTerminal);
             FreeShop freeShop = new FreeShop(capacidadFreeShop);
             terminales[i] = new Terminal(letraTerminal, puestosEmbarque, freeShop);
             letraTerminal++;
