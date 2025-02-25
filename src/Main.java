@@ -10,6 +10,7 @@ public class Main {
     private static final int cantPasajeros = 50;    // Multiplo de capacidadTren para que siempre se llene el tren
     private static final Terminal[] terminales = new Terminal[cantTerminales];
     private static final String[] aerolineas = new String[]{"Emirates", "Air France", "Qatar Airways", "American Airlines"};
+    private static final Hall hall = new Hall(aerolineas);
     private static final PuestoAtencion[] puestosAtencion = new PuestoAtencion[aerolineas.length];
     private static final Vuelo[] vuelos = new Vuelo[aerolineas.length];
     private static final Random random = new Random();
@@ -32,6 +33,8 @@ public class Main {
         
         ControlTren chofer = new ControlTren(tren, terminales);
         chofer.start();
+
+        
 
         reloj.start();
 
