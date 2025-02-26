@@ -8,26 +8,25 @@ public class Hall {
     private Map<String,Queue<String>> colasEspera;
 
     public Hall(String[] aerolineas) {
+        // Creo una cola de espera para cada aerolinea en el Hall Central
         this.colasEspera = new HashMap<>();
         for(int i = 0; i < aerolineas.length; i++) {
             this.colasEspera.put(aerolineas[i], new ConcurrentLinkedQueue<>());
         }
     }
 
+    // Metodo para Pasajero desde PuestoAtencion
     public synchronized void esperarEnHall(String pasajero, String aerolinea) {
         colasEspera.get(aerolinea).add(pasajero);
         System.out.println(pasajero + " espera en Hall Central");
-        //this.wait();
-
     }
 
+    // Metodo para Guardia desde PuestoAtencion
     public synchronized String buscarPasajero(String aerolinea) {
         return colasEspera.get(aerolinea).poll();
     }
 
-
-
-
+    // Metodo para Guardia desde PuestoAtencion 
     public Queue<String> getColaEspera(String aerolinea) {
         return colasEspera.get(aerolinea);
     }

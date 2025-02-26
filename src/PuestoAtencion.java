@@ -1,5 +1,4 @@
 import java.util.Queue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -27,10 +26,11 @@ public class PuestoAtencion {
         this.hall = hall;
     }
 
-    // Método para Pasajero
+    // Metodo para Pasajero
     public void ingresarPuestoAtencion(String pasajero) throws InterruptedException {
         try {
             accesoPuesto.lock();
+            // Si el puesto esta lleno el pasajero espera en el hall, sino, entra
             if(ocupacion == capacidad) {
                 hall.esperarEnHall(pasajero, aerolinea);
                 esperaGuardia.signal();
@@ -44,7 +44,7 @@ public class PuestoAtencion {
         }
     }
 
-    // Método para Pasajero
+    // Metodo para Pasajero
     public void realizarCheckIn(String pasajero) throws InterruptedException {
         try {
             accesoPuesto.lock();
@@ -52,13 +52,12 @@ public class PuestoAtencion {
             while(!pasajero.equals(filaCheckIn.peek())) {
                 esperaFila.await();
             }
-            System.out.println(pasajero + " esta siendo atendido en el Puesto de Atención de " + aerolinea);
         } finally {
             accesoPuesto.unlock();
         }
     }
 
-    // Método para Pasajero
+    // Metodo para Pasajero
     public int salirPuestoAtencion(String pasajero, Vuelo vuelo) throws InterruptedException {
         try {
             accesoPuesto.lock();
@@ -75,21 +74,22 @@ public class PuestoAtencion {
         }
     }
 
-    // Método para Guardia
+    // Metodo para Guardia
     public void darPasoAPasajero() throws InterruptedException {
         try {
             accesoPuesto.lock();
+            // El guardia espera a que haya alguien esperando para entrar
             while(hall.getColaEspera(aerolinea).isEmpty()) {
                 esperaGuardia.await();
             }
+            // Luego espera a que se desocupe el puesto para hacerlo entrar
             while(ocupacion >= capacidad) {
                 esperaGuardia.await();
             }
             String pasajero = hall.buscarPasajero(aerolinea);
+            System.out.println(pasajero + " ingresó a la fila del Puesto de Atención de " + aerolinea);
             filaCheckIn.add(pasajero);
             ocupacion++;
-
-
         } finally {
             accesoPuesto.unlock();
         }
