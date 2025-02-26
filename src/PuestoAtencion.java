@@ -17,7 +17,7 @@ public class PuestoAtencion {
     private Condition esperaGuardia;
     
 
-    public PuestoAtencion(String aerolinea, int cantidadMaxima) {
+    public PuestoAtencion(String aerolinea, int cantidadMaxima, Hall hall) {
         this.aerolinea = aerolinea;
         this.cantidadMaxima = cantidadMaxima;
         this.cantidadFila = 0;
@@ -99,4 +99,5 @@ public class PuestoAtencion {
     }
 
 }
+
 

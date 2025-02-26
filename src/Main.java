@@ -10,15 +10,16 @@ public class Main {
     private static final int cantPasajeros = 50;    // Multiplo de capacidadTren para que siempre se llene el tren
     private static final Terminal[] terminales = new Terminal[cantTerminales];
     private static final String[] aerolineas = new String[]{"Emirates", "Air France", "Qatar Airways", "American Airlines"};
-    private static final Hall hall = new Hall(aerolineas);
     private static final PuestoAtencion[] puestosAtencion = new PuestoAtencion[aerolineas.length];
     private static final Vuelo[] vuelos = new Vuelo[aerolineas.length];
     private static final Random random = new Random();
 
     public static void main(String[] args) {
         
+        Hall hall = new Hall(aerolineas);
+
         crearTerminales();  
-        crearAerolineas();
+        crearAerolineas(hall);
         crearVuelos();
 
         Tren tren = new Tren(capacidadTren);
@@ -33,8 +34,6 @@ public class Main {
         
         ControlTren chofer = new ControlTren(tren, terminales);
         chofer.start();
-
-        
 
         reloj.start();
 
@@ -59,11 +58,13 @@ public class Main {
         }
     }
 
-    public static void crearAerolineas() {
+    public static void crearAerolineas(Hall hall) {
         // Metodo para crear los puestos de atencion de cada aerolinea
         int maxima = 3; // Capacidad maxima del puesto
         for(int i = 0; i < aerolineas.length; i++) {
-            puestosAtencion[i] = new PuestoAtencion(aerolineas[i], maxima);
+            puestosAtencion[i] = new PuestoAtencion(aerolineas[i], maxima, hall);
+            Guardia guardia = new Guardia(puestosAtencion[i]);
+            guardia.start();
         }
     }
 
