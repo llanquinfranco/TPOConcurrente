@@ -14,7 +14,22 @@ public class Hall {
         }
     }
 
+    public synchronized void esperarEnHall(String pasajero, String aerolinea) {
+        colasEspera.get(aerolinea).add(pasajero);
+        System.out.println(pasajero + " espera en Hall Central");
+        //this.wait();
+
+    }
+
+    public synchronized String buscarPasajero(String aerolinea) {
+        return colasEspera.get(aerolinea).poll();
+    }
 
 
+
+
+    public Queue<String> getColaEspera(String aerolinea) {
+        return colasEspera.get(aerolinea);
+    }
 
 }
