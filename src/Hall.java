@@ -27,7 +27,7 @@ public class Hall {
     }
 
     // Metodo para Guardia desde PuestoAtencion 
-    public Queue<String> getColaEspera(String aerolinea) {
+    public synchronized Queue<String> getColaEspera(String aerolinea) {
         return colasEspera.get(aerolinea);
     }
 
